@@ -1,3 +1,4 @@
 /dist/
+/build/
 /django_html_validator.egg-info/
 example/db.sqlite3
