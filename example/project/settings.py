@@ -38,7 +38,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-#    'htmlvalidator.middleware.HTMLValidator',
+    'htmlvalidator.middleware.HTMLValidator',
 )
 
 ROOT_URLCONF = 'project.urls'
@@ -78,6 +78,9 @@ STATIC_URL = '/static/'
 
 HTMLVALIDATOR_ENABLED = True
 
-HTMLVALIDATOR_FAILFAST = True
+#HTMLVALIDATOR_FAILFAST = True
 
 HTMLVALIDATOR_VNU_JAR = '~/Downloads/vnu-20140901/vnu.jar'
+
+#HTMLVALIDATOR_OUTPUT = 'stdout'
+HTMLVALIDATOR_DUMPDIR = '~/tmp/htmlvalidator'

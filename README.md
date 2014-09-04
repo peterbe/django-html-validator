@@ -40,6 +40,27 @@ HTMLVALIDATOR_FAILFAST = True
 Now, if there's any validation error going through the client you'll
 get a `htmlvalidator.exceptions.ValidationError` exception raised.
 
+When validation errors and warnings are encountered, `htmlvalidator` will
+dump the HTML to a file and the errors in a file with the same name except
+with the extension `.txt` instead. It will dump this into, by default, the
+systems tmp directory and in sub-directory called `htmlvalidator`.
+E.g. `/tmp/htmlvalidator/`. If you want to override that change:
+
+```python
+HTMLVALIDATOR_DUMPDIR = '~/validationerrors/'
+```
+Whatever you set, the directory doesn't need to exist but its parent does.
+
+By default when `htmlvalidator` encounters validation errors it stores
+the relevant HTML file in the `HTMLVALIDATOR_DUMPDIR` together with a file
+with the extension `.txt` in the same directory. Alternatively you can just let
+it dump the validation errors and warnings straight onto stdout with:
+
+```python
+HTMLVALIDATOR_OUTPUT = 'stdout'  # default is 'file'
+```
+
+
 
 Setting the vnu.jar path
 ------------------------

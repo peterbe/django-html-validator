@@ -23,8 +23,12 @@ def validate_html(html, encoding, filename,
     )
     if temp_dir is None:
         temp_dir = os.path.join(
-            tempfile.gettempdir(), 'outputtestingclient'
+            tempfile.gettempdir(), 'htmlvalidator'
         )
+    else:
+        temp_dir = os.path.expanduser(temp_dir)
+        temp_dir = os.path.abspath(temp_dir)
+
     if not os.path.isdir(temp_dir):
         os.mkdir(temp_dir)
     temp_file = os.path.join(
@@ -96,21 +100,32 @@ def _validate(html_file, encoding, (args, kwargs)):
         False
     )
 
+    how_to_ouput = getattr(
+        settings,
+        'HTMLVALIDATOR_OUTPUT',
+        'file'
+    )
+    print "how_to_ouput", how_to_ouput
     if output and 'The document is valid' not in output:
         print "VALIDATON TROUBLE"
-        print "To debug, see:"
-        print "\t", html_file
-        txt_file = re.sub('\.html$', '.txt', html_file)
-        assert txt_file != html_file
-        print "\t", txt_file
-        with codecs.open(txt_file, 'w', encoding) as f:
-            f.write('Arguments to GET:\n')
-            for arg in args:
-                f.write('\t%s\n' % arg)
-            for k, w in kwargs.items():
-                f.write('\t%s=%s\n' % (k, w))
-            f.write('\n')
-            f.write(output)
+        if how_to_ouput == 'stdout':
+            print output
+            print
+        else:
+            print "To debug, see:"
+            print "\t", html_file
+            txt_file = re.sub('\.html$', '.txt', html_file)
+            assert txt_file != html_file
+            print "\t", txt_file
+            with codecs.open(txt_file, 'w', encoding) as f:
+                f.write('Arguments to GET:\n')
+                for arg in args:
+                    f.write('\t%s\n' % arg)
+                for k, w in kwargs.items():
+                    f.write('\t%s=%s\n' % (k, w))
+                f.write('\n')
+                f.write(output)
+
         if raise_exceptions:
             raise ValidationError(output)
 
