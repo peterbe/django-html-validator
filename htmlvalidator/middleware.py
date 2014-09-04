@@ -21,6 +21,9 @@ class HTMLValidator(object):
                 path = path[:-1]
 
             filename = path.replace('/', '_')
+            if not filename:
+                # e.g. an error on `/`
+                filename = 'index.html'
             if not filename.endswith('.html'):
                 filename += '.html'
             validate_html(
