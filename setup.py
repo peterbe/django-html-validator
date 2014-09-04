@@ -56,4 +56,11 @@ setup(
     zip_safe=False,
     #test_suite='crontabber.tests',
     #tests_require=find_tests_require(),
+    classifiers=[
+        'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+    ],
 )

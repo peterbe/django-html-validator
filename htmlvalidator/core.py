@@ -4,10 +4,12 @@ import tempfile
 import StringIO
 import gzip
 import re
+import subprocess
 
 import requests
 
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 
 from .exceptions import ValidatorOperationalError, ValidationError
 
@@ -37,27 +39,56 @@ def validate_html(html, encoding, filename,
 
 
 def _validate(html_file, encoding, (args, kwargs)):
-    buf = StringIO.StringIO()
-    gzipper = gzip.GzipFile(fileobj=buf, mode='wb')
-    with codecs.open(html_file, 'r', encoding) as f:
-        gzipper.write(f.read())
-        gzipper.close()
-    gzippeddata = buf.getvalue()
-    buf.close()
 
-    req = requests.post(
-        'http://html5.validator.nu/?out=text',
-        headers={
-            'Content-Type': 'text/html',
-            'Accept-Encoding': 'gzip',
-            'Content-Encoding': 'gzip',
-            'Content-Length': len(gzippeddata),
-        },
-        data=gzippeddata
-    )
+    if getattr(settings, 'HTMLVALIDATOR_VNU_JAR', None):
+        vnu_jar_path = settings.HTMLVALIDATOR_VNU_JAR
+        vnu_jar_path = os.path.expanduser(vnu_jar_path)
+        vnu_jar_path = os.path.abspath(vnu_jar_path)
+        if not os.path.isfile(vnu_jar_path):
+            raise ImproperlyConfigured(
+                '%s is not a file' % vnu_jar_path
+            )
+        status, out, err = _run_command(
+            'java -jar {} {}'.format(vnu_jar_path, html_file)
+        )
+        if status not in (0, 1):
+            # 0 if it worked and no validation errors/warnings
+            # 1 if it worked but there was validation errors/warnings
+            raise ValidatorOperationalError(err)
 
-    if req.status_code != 200:
-        raise ValidatorOperationalError(req)
+        # out = unicode(out, 'utf-8')
+        err = unicode(err, 'utf-8')
+        output = err  # cryptic, I know
+        output = re.sub(
+            '"file:%s":' % re.escape(html_file),
+            '',
+            output
+        )
+
+    else:
+        buf = StringIO.StringIO()
+        gzipper = gzip.GzipFile(fileobj=buf, mode='wb')
+        with codecs.open(html_file, 'r', encoding) as f:
+            gzipper.write(f.read())
+            gzipper.close()
+        gzippeddata = buf.getvalue()
+        buf.close()
+
+        req = requests.post(
+            'http://html5.validator.nu/?out=text',
+            headers={
+                'Content-Type': 'text/html',
+                'Accept-Encoding': 'gzip',
+                'Content-Encoding': 'gzip',
+                'Content-Length': len(gzippeddata),
+            },
+            data=gzippeddata
+        )
+
+        if req.status_code != 200:
+            raise ValidatorOperationalError(req)
+
+        output = unicode(req.content, encoding)
 
     raise_exceptions = getattr(
         settings,
@@ -65,11 +96,7 @@ def _validate(html_file, encoding, (args, kwargs)):
         False
     )
 
-    messages = []
-    for block in re.split('\n\n+', req.content):
-        messages.append(block)
-
-    if req.content and 'The document is valid' not in req.content:
+    if output and 'The document is valid' not in output:
         print "VALIDATON TROUBLE"
         print "To debug, see:"
         print "\t", html_file
@@ -83,6 +110,19 @@ def _validate(html_file, encoding, (args, kwargs)):
             for k, w in kwargs.items():
                 f.write('\t%s=%s\n' % (k, w))
             f.write('\n')
-            f.write(unicode(req.content, encoding))
+            f.write(output)
         if raise_exceptions:
-            raise ValidationError(req.content)
+            raise ValidationError(output)
+
+
+def _run_command(command):
+    # print "COMMAND"
+    # print command
+    proc = subprocess.Popen(
+        command,
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+    out, err = proc.communicate(input=input)
+    return proc.returncode, out.strip(), err.strip()

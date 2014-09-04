@@ -24,8 +24,15 @@ class ValidatingClient(Client):
         if not enabled:
             return response
 
+        # perhaps you already, for some reason have the middleware installed
+        if (
+            'htmlvalidator.middleware.HTMLValidator'
+            in settings.MIDDLEWARE_CLASSES
+        ):
+            # no point doing it here too
+            return response
+
         caller = inspect.stack()[1]
-        # caller_file = caller[1]
         caller_line = caller[2]
         caller_name = caller[3]
 
