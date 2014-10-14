@@ -71,7 +71,7 @@ By default, all validation is done by sending your HTML with HTTP POST to
 Not only does this put a lot of stress on their server. Especially if you have
 a lot of tests. It's also slow because it depends on network latency. A much
 better way is to download the `vnu.jar` file from their
-[latest release](https://github.com/validator/validator.github.io/releases/latest) on
+[latest release](https://github.com/validator/validator/releases/latest) on
 [GitHub page](https://github.com/validator/).
 
 You set it up simply like this:
