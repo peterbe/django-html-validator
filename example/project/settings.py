@@ -80,7 +80,7 @@ HTMLVALIDATOR_ENABLED = True
 
 #HTMLVALIDATOR_FAILFAST = True
 
-HTMLVALIDATOR_VNU_JAR = '~/Downloads/vnu-20140901/vnu.jar'
+HTMLVALIDATOR_VNU_JAR = '~/Downloads/vnu/vnu.jar'
 
 #HTMLVALIDATOR_OUTPUT = 'stdout'
 HTMLVALIDATOR_DUMPDIR = '~/tmp/htmlvalidator'

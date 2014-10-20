@@ -10,7 +10,7 @@ Warning!
 --------
 
 If you don't download a local `vnu.har` file, it will use
-`http://html5.validator.nu` and send your HTML there over HTTP.
+[http://validator.nu](http://validator.nu) and send your HTML there over HTTP.
 Not over HTTPS.
 
 If you use `htmlvalidator` to validate tests it's unlikely your HTML contains
