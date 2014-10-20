@@ -9,13 +9,32 @@ License: [MPL 2](http://www.mozilla.org/MPL/2.0/)
 Warning!
 --------
 
-If you don't download a local `vnu.har` file, it will use
-[http://validator.nu](http://validator.nu) and send your HTML there over HTTP.
+If you don't download a local `vnu.jar` file (see below), it will use
+[http://validator.nu](http://validator.nu) and send **your HTML there over HTTP**.
 Not over HTTPS.
 
 If you use `htmlvalidator` to validate tests it's unlikely your HTML contains
 anything sensitive or personally identifyable but if you use the middleware
 option there's a potential risk.
+
+Install
+-------
+
+First things first, very simple:
+
+    pip install django-html-validator
+
+Note, it won't do anything until you chose how you want to use it and you also
+need to explicitly enable it with a setting.
+
+Basically, you have a choice of how you want to use this:
+
+* As a middleware
+* In your unit tests (technically they're integration tests in Django)
+
+If you chose to set it up as a middleware and enable it accordingly it will
+run for every rendered template in the tests too. Not just when you run the
+server.
 
 Settings
 --------
@@ -40,6 +59,9 @@ HTMLVALIDATOR_FAILFAST = True
 Now, if there's any validation error going through the client you'll
 get a `htmlvalidator.exceptions.ValidationError` exception raised.
 
+Equally, if you're running it as a middleware and have this setting on it
+will raise the exception in the request.
+
 When validation errors and warnings are encountered, `htmlvalidator` will
 dump the HTML to a file and the errors in a file with the same name except
 with the extension `.txt` instead. It will dump this into, by default, the
@@ -47,7 +69,7 @@ systems tmp directory and in sub-directory called `htmlvalidator`.
 E.g. `/tmp/htmlvalidator/`. If you want to override that change:
 
 ```python
-HTMLVALIDATOR_DUMPDIR = '~/validationerrors/'
+HTMLVALIDATOR_DUMPDIR = '~/validationerrors/'  # default it /tmp
 ```
 Whatever you set, the directory doesn't need to exist but its parent does.
 
@@ -60,8 +82,6 @@ it dump the validation errors and warnings straight onto stdout with:
 HTMLVALIDATOR_OUTPUT = 'stdout'  # default is 'file'
 ```
 
-
-
 Setting the vnu.jar path
 ------------------------
 
@@ -71,7 +91,7 @@ By default, all validation is done by sending your HTML with HTTP POST to
 Not only does this put a lot of stress on their server. Especially if you have
 a lot of tests. It's also slow because it depends on network latency. A much
 better way is to download the `vnu.jar` file from their
-[latest release](https://github.com/validator/validator/releases/latest) on
+[latest release](https://github.com/validator/validator.github.io/releases/latest) on
 [GitHub page](https://github.com/validator/).
 
 You set it up simply like this:
@@ -85,6 +105,7 @@ executed on the command line.
 
 Be aware that calling this `vnu.jar` file is quite slow. Over 2 seconds is
 not unusual.
+
 
 
 Validating during running the server
