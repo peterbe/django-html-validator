@@ -106,7 +106,7 @@ def _validate(html_file, encoding, (args, kwargs)):
         'file'
     )
     if output and 'The document is valid' not in output:
-        print "VALIDATON TROUBLE"
+        print "VALIDATION TROUBLE"
         if how_to_ouput == 'stdout':
             print output
             print
