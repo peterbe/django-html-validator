@@ -36,7 +36,7 @@ def validate_html(html, encoding, filename,
         filename
     )
     with codecs.open(temp_file, 'w', encoding) as f:
-        f.write(html)
+        f.write(html.decode(encoding))
         valid = _validate(temp_file, encoding, (args, kwargs))
     if valid:
         os.remove(temp_file)
@@ -73,7 +73,7 @@ def _validate(html_file, encoding, (args, kwargs)):
         buf = StringIO.StringIO()
         gzipper = gzip.GzipFile(fileobj=buf, mode='wb')
         with codecs.open(html_file, 'r', encoding) as f:
-            gzipper.write(f.read())
+            gzipper.write(f.read().encode(encoding))
             gzipper.close()
         gzippeddata = buf.getvalue()
         buf.close()
