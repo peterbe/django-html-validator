@@ -79,8 +79,17 @@ def _validate(html_file, encoding, args_kwargs):
         gzippeddata = buf.getvalue()
         buf.close()
 
+        vnu_url = getattr(
+            settings,
+            'HTMLVALIDATOR_VNU_URL',
+            'http://html5.validator.nu/'
+        )
+
         req = requests.post(
-            'http://html5.validator.nu/?out=text',
+            vnu_url,
+            params={
+                'out': 'text',
+            },
             headers={
                 'Content-Type': 'text/html',
                 'Accept-Encoding': 'gzip',
