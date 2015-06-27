@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
 import re
-import codecs
 import os
+import sys
+
+if sys.version_info[0] < 3:
+    from codecs import open
 
 # Prevent spurious errors during `python setup.py test`, a la
 # http://www.eby-sarna.com/pipermail/peak/2010-May/003357.html:
@@ -16,7 +19,7 @@ from setuptools import setup
 
 
 def read(*parts):
-    return codecs.open(os.path.join(os.path.dirname(__file__), *parts)).read()
+    return open(os.path.join(os.path.dirname(__file__), *parts)).read()
 
 
 def find_version(*file_paths):
@@ -53,6 +56,7 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
 )
