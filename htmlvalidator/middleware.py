@@ -1,5 +1,8 @@
 from django.conf import settings
-from django.contrib.sites.models import RequestSite
+try:
+    from django.contrib.sites.requests import RequestSite
+except Importerror:  # Django < 1.7
+    from django.contrib.sites.models import RequestSite
 
 from .utils import find_charset_encoding
 from .core import validate_html
