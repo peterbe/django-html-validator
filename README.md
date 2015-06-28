@@ -107,9 +107,19 @@ This also **requires java to be installed** because that's how `.jar` files are
 executed on the command line.
 
 Be aware that calling this `vnu.jar` file is quite slow. Over 2 seconds is
-not unusual.
+not unusual. A faster alternative is to use the `vnu.jar` to run a local web
+instance of the validator, and pointing validation to use that by *NOT* setting
+`HTMLVALIDATOR_VNU_JAR` and doing this instead:
 
+```python
+HTMLVALIDATOR_VNU_URL = 'http://localhost:8888/'
+```
 
+The local web instance of the validator can be started typically by:
+
+```
+java -cp vnu.jar nu.validator.servlet.Main 8888
+```
 
 Validating during running the server
 ------------------------------------
