@@ -115,7 +115,7 @@ def _validate(html_file, encoding, args_kwargs):
         'HTMLVALIDATOR_OUTPUT',
         'file'
     )
-    if output and 'The document is valid' not in output:
+    if output and not re.search(r'The document (is valid|validates)', output):
         print("VALIDATION TROUBLE")
         if how_to_ouput == 'stdout':
             print(output)
