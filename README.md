@@ -1,6 +1,8 @@
 django-html-validator
 =====================
 
+[![Build Status](https://travis-ci.org/peterbe/django-html-validator.svg?branch=master)](https://travis-ci.org/peterbe/django-html-validator)
+
 A tool to do validation of your HTML generated from your Django app.
 
 License: [MPL 2](http://www.mozilla.org/MPL/2.0/)
