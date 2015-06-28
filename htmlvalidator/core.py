@@ -74,7 +74,6 @@ def _validate(html_file, encoding, args_kwargs):
         buf = BytesIO()
         with gzip.GzipFile(fileobj=buf, mode='wb') as gzipper:
             with codecs.open(html_file, 'r', encoding) as f:
-                # print(repr(f.read().encode(encoding)))
                 gzipper.write(f.read().encode(encoding))
         gzippeddata = buf.getvalue()
         buf.close()
@@ -124,7 +123,6 @@ def _validate(html_file, encoding, args_kwargs):
                 for k, w in kwargs.items():
                     f.write('\t%s=%s\n' % (k, w))
                 f.write('\n')
-                print(repr(output))
                 f.write(output)
 
         if raise_exceptions:
