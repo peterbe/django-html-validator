@@ -1,0 +1,18 @@
+language: python
+python:
+- 2.7
+env:
+- TOX_ENV=py27_dj18
+- TOX_ENV=py34_dj18
+install:
+- pip install tox
+script:
+- tox -e $TOX_ENV
+deploy:
+  provider: pypi
+  user: peterbe
+  password:
+    secure: NaWe6VM0X04jbaK6A85dTH7iFo4lVZZwgydTO2vmPxhyfbH+9rrYG62E5p7VBZVFDF66iPHk3nP57DYfOg2OTFMbdQp0CjWvePQR1qY7tFkBjYKAyF0L+S96cuCFaGpAjgo4PKYbwzHI0L0WEE71PXorBMxOhhp8bDJ9+YR723s=
+  on:
+    repo: peterbe/django-html-validator
+  distributions: "sdist bdist_wheel"

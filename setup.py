@@ -16,7 +16,10 @@ from setuptools import setup
 
 
 def read(*parts):
-    return codecs.open(os.path.join(os.path.dirname(__file__), *parts)).read()
+    return codecs.open(
+        os.path.join(os.path.dirname(__file__), *parts),
+        encoding='utf-8'
+    ).read()
 
 
 def find_version(*file_paths):
@@ -45,8 +48,10 @@ setup(
     description="Yo! Check your HTML!",
     long_description=README,
     packages=['htmlvalidator'],
+    license='MPL v2.0',
     include_package_data=True,
     install_requires=find_install_requires(),
+    test_suite="runtests.runtests",
     zip_safe=False,
     classifiers=[
         'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
