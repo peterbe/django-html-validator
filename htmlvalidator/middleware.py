@@ -31,6 +31,6 @@ class HTMLValidator(object):
                 response.content,
                 encoding,
                 filename,
-                (request.GET, {})
+                ([], request.GET)
             )
         return response
