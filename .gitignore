@@ -3,3 +3,4 @@
 /django_html_validator.egg-info/
 example/db.sqlite3
 .tox/
+__pycache__
