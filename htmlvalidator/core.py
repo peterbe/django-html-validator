@@ -5,6 +5,7 @@ import tempfile
 import gzip
 import re
 import subprocess
+import cgi
 from io import BytesIO
 
 import requests
@@ -15,7 +16,7 @@ from django.core.exceptions import ImproperlyConfigured
 from .exceptions import ValidatorOperationalError, ValidationError
 
 
-def validate_html(html, encoding, filename, args_kwargs):
+def validate_html(html, content_type, filename, args_kwargs):
     temp_dir = getattr(
         settings,
         'HTMLVALIDATOR_DUMPDIR',
@@ -35,14 +36,18 @@ def validate_html(html, encoding, filename, args_kwargs):
         temp_dir,
         filename
     )
+
+    content_type, params = cgi.parse_header(content_type)
+    encoding = params.get('charset', 'utf-8')
+
     with codecs.open(temp_file, 'w', encoding) as f:
         f.write(html.decode(encoding))
-        valid = _validate(temp_file, encoding, args_kwargs)
+        valid = _validate(temp_file, content_type, encoding, args_kwargs)
     if valid:
         os.remove(temp_file)
 
 
-def _validate(html_file, encoding, args_kwargs):
+def _validate(html_file, content_type, encoding, args_kwargs):
     args, kwargs = args_kwargs
 
     if getattr(settings, 'HTMLVALIDATOR_VNU_JAR', None):
@@ -53,8 +58,10 @@ def _validate(html_file, encoding, args_kwargs):
             raise ImproperlyConfigured(
                 '%s is not a file' % vnu_jar_path
             )
+        parser = "xhtml" in content_type and "xml" or "html"
         status, out, err = _run_command(
-            'java -jar {} {}'.format(vnu_jar_path, html_file)
+            'java -jar {} -Dnu.validator.client.parser={} {}'
+            .format(vnu_jar_path, parser, html_file)
         )
         if status not in (0, 1):
             # 0 if it worked and no validation errors/warnings
@@ -90,7 +97,7 @@ def _validate(html_file, encoding, args_kwargs):
                 'out': 'text',
             },
             headers={
-                'Content-Type': 'text/html',
+                'Content-Type': content_type,
                 'Accept-Encoding': 'gzip',
                 'Content-Encoding': 'gzip',
                 'Content-Length': len(gzippeddata),
