@@ -61,8 +61,7 @@ def _validate(html_file, encoding, args_kwargs):
             # 1 if it worked but there was validation errors/warnings
             raise ValidatorOperationalError(err)
 
-        # out = unicode(out, 'utf-8')
-        err = unicode(err, 'utf-8')
+        err = err.decode('utf-8')
         output = err  # cryptic, I know
         output = re.sub(
             '"file:%s":' % re.escape(html_file),
