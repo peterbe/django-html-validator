@@ -86,7 +86,7 @@ def _validate(html_file, encoding, args_kwargs):
         req = requests.post(
             vnu_url,
             params={
-                'out': 'text',
+                'out': 'gnu',
             },
             headers={
                 'Content-Type': 'text/html',
