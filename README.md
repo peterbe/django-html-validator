@@ -128,24 +128,18 @@ A way to do HTML validation is to do it during running the
 server. E.g. with `./manage.py runserver`.
 
 To do that you need to enable the middleware. In your settings module,
-in the `MIDDLEWARE_CLASSES` add
-`htmlvalidator.middleware.HTMLValidator` so it looks something like
-this:
+append `htmlvalidator.middleware.HTMLValidator`
+to `MIDDLEWARE_CLASSES` for example like this:
 
 ```python
-MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'htmlvalidator.middleware.HTMLValidator',  # <-- note!
-)
+if HTMLVALIDATOR_ENABLED:
+    MIDDLEWARE_CLASSES += ("htmlvalidator.middleware.HTMLValidator",)
 ```
 
-Note! See the note above about `HTMLVALIDATOR_ENABLED` to actually
-make it do something.
+You can also add it directly and unconditionally to `MIDDLEWARE_CLASSES`
+and it won't do anything (except be loaded) unless enabled, see
+the note above about `HTMLVALIDATOR_ENABLED` for more info.
+
 Also, if you enable `HTMLVALIDATOR_FAILFAST`, when running the
 `htmlvalidator` middleware it will raise an exception as soon as it
 sees some invalid HTML.
