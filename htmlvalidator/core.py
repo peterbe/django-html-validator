@@ -72,8 +72,8 @@ def _validate(html_file, encoding, args_kwargs):
     else:
         buf = BytesIO()
         with gzip.GzipFile(fileobj=buf, mode='wb') as gzipper:
-            with codecs.open(html_file, 'r', encoding) as f:
-                gzipper.write(f.read().encode(encoding))
+            with open(html_file, 'rb') as f:
+                gzipper.write(f.read())
         gzippeddata = buf.getvalue()
         buf.close()
 
