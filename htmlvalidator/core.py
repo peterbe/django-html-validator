@@ -54,7 +54,7 @@ def _validate(html_file, encoding, args_kwargs):
                 '%s is not a file' % vnu_jar_path
             )
         status, out, err = _run_command(
-            'java -jar {} {}'.format(vnu_jar_path, html_file)
+            'java', '-jar', vnu_jar_path, html_file
         )
         if status not in (0, 1):
             # 0 if it worked and no validation errors/warnings
@@ -137,10 +137,9 @@ def _validate(html_file, encoding, args_kwargs):
             raise ValidationError(output)
 
 
-def _run_command(command):
+def _run_command(*command):
     proc = subprocess.Popen(
         command,
-        shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
