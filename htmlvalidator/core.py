@@ -124,7 +124,7 @@ def _validate(html_file, encoding, args_kwargs):
             txt_file = re.sub('\.html$', '.txt', html_file)
             assert txt_file != html_file
             print("\t", txt_file)
-            with codecs.open(txt_file, 'w', encoding) as f:
+            with codecs.open(txt_file, 'w', 'utf-8') as f:
                 f.write('Arguments to GET:\n')
                 for arg in args:
                     f.write('\t%s\n' % arg)
