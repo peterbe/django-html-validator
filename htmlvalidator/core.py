@@ -108,14 +108,14 @@ def _validate(html_file, encoding, args_kwargs):
         False
     )
 
-    how_to_ouput = getattr(
+    how_to_output = getattr(
         settings,
         'HTMLVALIDATOR_OUTPUT',
         'file'
     )
     if output and not re.search(r'The document (is valid|validates)', output):
         print("VALIDATION TROUBLE")
-        if how_to_ouput == 'stdout':
+        if how_to_output == 'stdout':
             print(output)
             print()
         else:
