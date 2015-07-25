@@ -144,5 +144,5 @@ def _run_command(command):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
-    out, err = proc.communicate(input=input)
+    out, err = proc.communicate()
     return proc.returncode, out.strip(), err.strip()
