@@ -54,7 +54,7 @@ def _validate(html_file, encoding, args_kwargs):
                 '%s is not a file' % vnu_jar_path
             )
         status, out, err = _run_command(
-            'java -jar {} {}'.format(vnu_jar_path, html_file)
+            'java', '-jar', vnu_jar_path, html_file
         )
         if status not in (0, 1):
             # 0 if it worked and no validation errors/warnings
@@ -72,8 +72,8 @@ def _validate(html_file, encoding, args_kwargs):
     else:
         buf = BytesIO()
         with gzip.GzipFile(fileobj=buf, mode='wb') as gzipper:
-            with codecs.open(html_file, 'r', encoding) as f:
-                gzipper.write(f.read().encode(encoding))
+            with open(html_file, 'rb') as f:
+                gzipper.write(f.read())
         gzippeddata = buf.getvalue()
         buf.close()
 
@@ -108,14 +108,14 @@ def _validate(html_file, encoding, args_kwargs):
         False
     )
 
-    how_to_ouput = getattr(
+    how_to_output = getattr(
         settings,
         'HTMLVALIDATOR_OUTPUT',
         'file'
     )
     if output and not re.search(r'The document (is valid|validates)', output):
         print("VALIDATION TROUBLE")
-        if how_to_ouput == 'stdout':
+        if how_to_output == 'stdout':
             print(output)
             print()
         else:
@@ -124,7 +124,7 @@ def _validate(html_file, encoding, args_kwargs):
             txt_file = re.sub('\.html$', '.txt', html_file)
             assert txt_file != html_file
             print("\t", txt_file)
-            with codecs.open(txt_file, 'w', encoding) as f:
+            with codecs.open(txt_file, 'w', 'utf-8') as f:
                 f.write('Arguments to GET:\n')
                 for arg in args:
                     f.write('\t%s\n' % arg)
@@ -137,12 +137,11 @@ def _validate(html_file, encoding, args_kwargs):
             raise ValidationError(output)
 
 
-def _run_command(command):
+def _run_command(*command):
     proc = subprocess.Popen(
         command,
-        shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
-    out, err = proc.communicate(input=input)
+    out, err = proc.communicate()
     return proc.returncode, out.strip(), err.strip()

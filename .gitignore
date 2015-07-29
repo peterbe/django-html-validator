@@ -4,3 +4,4 @@
 example/db.sqlite3
 .tox/
 __pycache__
+*.pyc
