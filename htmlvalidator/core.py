@@ -80,7 +80,7 @@ def _validate(html_file, encoding, args_kwargs):
         vnu_url = getattr(
             settings,
             'HTMLVALIDATOR_VNU_URL',
-            'http://html5.validator.nu/'
+            'https://html5.validator.nu/'
         )
 
         req = requests.post(

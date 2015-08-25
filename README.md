@@ -13,8 +13,7 @@ Warning!
 --------
 
 If you don't download a local `vnu.jar` file (see below), it will use
-[http://validator.nu](http://validator.nu) and send **your HTML there over HTTP**.
-Not over HTTPS.
+[validator.nu](https://validator.nu/) and **send your HTML there**.
 
 If you use `htmlvalidator` to validate tests it's unlikely your HTML contains
 anything sensitive or personally identifyable but if you use the middleware
@@ -89,7 +88,7 @@ Setting the vnu.jar path
 ------------------------
 
 By default, all validation is done by sending your HTML with HTTP POST to
-[html5.validator.nu](http://html5.validator.nu/).
+[html5.validator.nu](https://html5.validator.nu/).
 
 Not only does this put a lot of stress on their server. Especially if you have
 a lot of tests. It's also slow because it depends on network latency. A much
