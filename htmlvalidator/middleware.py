@@ -30,6 +30,7 @@ class HTMLValidator(object):
             if not filename.endswith('.html'):
                 filename += '.html'
             filename = '%s-%s' % (RequestSite(request).domain, filename)
+            filename = filename.replace(':', '-')  # Windows
             validate_html(
                 response.content,
                 encoding,
