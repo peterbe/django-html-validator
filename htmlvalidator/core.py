@@ -37,8 +37,7 @@ def validate_html(html, encoding, filename, args_kwargs):
     )
     with codecs.open(temp_file, 'w', encoding) as f:
         f.write(html.decode(encoding))
-        valid = _validate(temp_file, encoding, args_kwargs)
-    if valid:
+    if _validate(temp_file, encoding, args_kwargs):
         os.remove(temp_file)
 
 
