@@ -5,6 +5,11 @@ python:
 env:
 - TOX_ENV=py27_dj18
 - TOX_ENV=py34_dj18
+# https://github.com/travis-ci/travis-ci/issues/4794
+matrix:
+  include:
+    - python: 3.5
+      env: TOX_ENV=py35_dj18
 install:
 - pip install tox twine
 script:
