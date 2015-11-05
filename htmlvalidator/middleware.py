@@ -4,7 +4,6 @@ try:
 except ImportError:  # Django < 1.7
     from django.contrib.sites.models import RequestSite
 
-from .utils import find_charset_encoding
 from .core import validate_html
 
 
@@ -18,7 +17,6 @@ class HTMLValidator(object):
             response.status_code == 200 and
             response['content-type'].startswith('text/html')
         ):
-            encoding = find_charset_encoding(response['Content-Type'])
             path = request.path[1:]
             if path.endswith('/'):
                 path = path[:-1]
@@ -33,7 +31,7 @@ class HTMLValidator(object):
             filename = filename.replace(':', '-')  # Windows
             validate_html(
                 response.content,
-                encoding,
+                response['Content-Type'],
                 filename,
                 ([], request.GET)
             )
