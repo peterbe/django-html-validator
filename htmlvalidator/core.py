@@ -1,4 +1,5 @@
 from __future__ import print_function
+import cgi
 import codecs
 import os
 import tempfile
@@ -13,7 +14,6 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
 from .exceptions import ValidatorOperationalError, ValidationError
-from .utils import find_charset_encoding
 
 
 def validate_html(html, content_type, filename, args_kwargs):
@@ -45,7 +45,8 @@ def _validate(html_file, html, content_type, args_kwargs):
 
     if getattr(settings, 'HTMLVALIDATOR_VNU_JAR', None):
         # jar mode expects files in utf-8, recode
-        encoding = find_charset_encoding(content_type)
+        content_type, params = cgi.parse_header(content_type)
+        encoding = params.get('charset', 'utf-8')
         with codecs.open(html_file, 'w', 'utf-8') as f:
             f.write(html.decode(encoding))
 
