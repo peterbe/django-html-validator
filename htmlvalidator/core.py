@@ -29,6 +29,9 @@ def validate_html(html, content_type, filename, args_kwargs):
     else:
         temp_dir = os.path.expanduser(temp_dir)
         temp_dir = os.path.abspath(temp_dir)
+    if content_type.startswith("application/xhtml+xml"):
+        # *.xhtml extension triggers correct parser in CLI jar mode
+        filename = re.sub(r'\.html$', '.xhtml', filename)
 
     if not os.path.isdir(temp_dir):
         os.mkdir(temp_dir)
@@ -126,7 +129,7 @@ def _validate(html_file, html, content_type, args_kwargs):
         else:
             print("To debug, see:")
             print("\t", html_file)
-            txt_file = re.sub('\.html$', '.txt', html_file)
+            txt_file = re.sub('\.x?html$', '.txt', html_file)
             assert txt_file != html_file
             print("\t", txt_file)
             with codecs.open(txt_file, 'w', 'utf-8') as f:
