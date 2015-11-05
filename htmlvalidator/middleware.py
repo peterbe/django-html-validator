@@ -1,7 +1,7 @@
 from django.conf import settings
 try:
     from django.contrib.sites.requests import RequestSite
-except Importerror:  # Django < 1.7
+except ImportError:  # Django < 1.7
     from django.contrib.sites.models import RequestSite
 
 from .utils import find_charset_encoding
