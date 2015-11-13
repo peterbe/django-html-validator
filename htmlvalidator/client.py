@@ -1,12 +1,7 @@
 import inspect
-import tempfile
-import codecs
-import os
-import re
 
-import requests
-from django.test.client import Client
 from django.conf import settings
+from django.test.client import Client
 
 from .utils import find_charset_encoding
 from .core import validate_html
