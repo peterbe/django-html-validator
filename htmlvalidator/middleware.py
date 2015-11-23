@@ -14,8 +14,10 @@ class HTMLValidator(object):
             return response
 
         if (
-            response.status_code == 200 and
-            response['content-type'].startswith('text/html')
+            response.status_code == 200 and (
+                response['content-type'].startswith('text/html') or
+                response['content-type'].startswith('application/xhtml+xml')
+            )
         ):
             path = request.path[1:]
             if path.endswith('/'):

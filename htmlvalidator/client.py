@@ -31,9 +31,10 @@ class ValidatingClient(Client):
         caller_name = caller[3]
 
         if (
-            response['Content-Type'].startswith('text/html')
-            and
-            response.status_code == 200
+            response.status_code == 200 and (
+                response['Content-Type'].startswith('text/html') or
+                response['Content-Type'].startswith('application/xhtml+xml')
+            )
         ):
             if not response.content:
                 raise ValueError('No response.content', args[0])
