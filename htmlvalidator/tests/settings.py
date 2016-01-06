@@ -14,8 +14,8 @@ INSTALLED_APPS = (
     'htmlvalidator',
     'htmlvalidator.tests',
 
-    # 'django.contrib.auth',
-    # 'django.contrib.contenttypes',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
     # 'django.contrib.staticfiles',
 )
 
