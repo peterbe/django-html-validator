@@ -54,6 +54,7 @@ setup(
     test_suite="runtests.runtests",
     zip_safe=False,
     classifiers=[
+        'Framework :: Django',
         'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.6',
