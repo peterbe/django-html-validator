@@ -79,11 +79,10 @@ def _validate(html_file, html, content_type, args_kwargs):
     else:
         with open(html_file, 'wb') as f:
             f.write(html)
-        buf = BytesIO()
-        with gzip.GzipFile(fileobj=buf, mode='wb') as gzipper:
-            gzipper.write(html)
-        gzippeddata = buf.getvalue()
-        buf.close()
+        with BytesIO() as buf:
+            with gzip.GzipFile(fileobj=buf, mode='wb') as gzipper:
+                gzipper.write(html)
+            gzippeddata = buf.getvalue()
 
         vnu_url = getattr(
             settings,
