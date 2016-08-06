@@ -16,10 +16,11 @@ from setuptools import setup
 
 
 def read(*parts):
-    return codecs.open(
+    with codecs.open(
         os.path.join(os.path.dirname(__file__), *parts),
         encoding='utf-8'
-    ).read()
+    ) as f:
+        return f.read()
 
 
 def find_version(*file_paths):
