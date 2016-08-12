@@ -7,6 +7,7 @@ import tempfile
 from glob import glob
 
 import requests
+import six
 from mock import Mock, patch
 
 from htmlvalidator import client
@@ -60,3 +61,13 @@ class ClientTestCase(TestCase):
             txt_file, = glob(os.path.join(self.tmpdir, '*.txt'))
             with codecs.open(txt_file, encoding='utf-8') as f:
                 self.assertTrue(content in f.read())
+
+        # Make sure the "headers" argument to htmlvalidator.core.requests.post
+        # was a mapping of str to str.
+        post.assert_called()
+        headers = post.call_args[1]['headers']
+        for header in headers:
+            self.assertTrue(isinstance(header, six.text_type) or
+                            isinstance(header, six.binary_type))
+            self.assertTrue(isinstance(headers[header], six.text_type) or
+                            isinstance(headers[header], six.binary_type))

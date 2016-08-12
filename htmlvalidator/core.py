@@ -99,7 +99,7 @@ def _validate(html_file, html, content_type, args_kwargs):
                 'Content-Type': content_type,
                 'Accept-Encoding': 'gzip',
                 'Content-Encoding': 'gzip',
-                'Content-Length': len(gzippeddata),
+                'Content-Length': str(len(gzippeddata)),
             },
             data=gzippeddata
         )
