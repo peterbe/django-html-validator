@@ -3,11 +3,11 @@
 import codecs
 import os
 import shutil
-import sys
 import tempfile
 from glob import glob
 
 import requests
+import six
 from mock import Mock, patch
 
 from htmlvalidator import client
@@ -64,13 +64,10 @@ class ClientTestCase(TestCase):
 
         # Make sure the "headers" argument to htmlvalidator.core.requests.post
         # was a mapping of str to str.
-        using_python_2 = sys.version_info[0] < 3
-        bytestype = str if using_python_2 else bytes
-        stringtype = unicode if using_python_2 else str
         post.assert_called()
         headers = post.call_args[1]['headers']
         for header in headers:
-            self.assertTrue(isinstance(header, stringtype) or
-                            isinstance(header, bytestype))
-            self.assertTrue(isinstance(headers[header], stringtype) or
-                            isinstance(headers[header], bytestype))
+            self.assertTrue(isinstance(header, six.text_type) or
+                            isinstance(header, six.binary_type))
+            self.assertTrue(isinstance(headers[header], six.text_type) or
+                            isinstance(headers[header], six.binary_type))
