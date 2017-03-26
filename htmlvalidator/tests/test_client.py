@@ -7,7 +7,7 @@ import tempfile
 from glob import glob
 
 import requests
-import six
+from django.utils import six
 from mock import Mock, patch
 
 from htmlvalidator import client
