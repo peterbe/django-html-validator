@@ -1,8 +1,5 @@
 from django.conf import settings
-try:
-    from django.contrib.sites.requests import RequestSite
-except ImportError:  # Django < 1.7
-    from django.contrib.sites.models import RequestSite
+from django.contrib.sites.requests import RequestSite
 
 from .core import validate_html
 
