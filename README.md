@@ -16,7 +16,7 @@ If you don't download a local `vnu.jar` file (see below), it will use
 [validator.nu](https://validator.nu/) and **send your HTML there**.
 
 If you use `htmlvalidator` to validate tests it's unlikely your HTML contains
-anything sensitive or personally identifyable but if you use the middleware
+anything sensitive or personally identifiable but if you use the middleware
 option there's a potential risk.
 
 Install
