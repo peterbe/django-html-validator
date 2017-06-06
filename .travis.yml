@@ -18,6 +18,9 @@ matrix:
       env: TOX_ENV=py35_dj19
     - python: 3.5
       env: TOX_ENV=py35_dj110
+branches:
+  only:
+  - master
 install:
 - pip install tox twine
 script:
