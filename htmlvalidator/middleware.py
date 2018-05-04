@@ -3,8 +3,12 @@ from django.contrib.sites.requests import RequestSite
 
 from .core import validate_html
 
+try:
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    MiddlewareMixin = object
 
-class HTMLValidator(object):
+class HTMLValidator(MiddlewareMixin):
 
     def process_response(self, request, response):
         if not getattr(settings, 'HTMLVALIDATOR_ENABLED', False):
