@@ -8,6 +8,9 @@ Python 3 compatible.
 
 License: [MPL 2](http://www.mozilla.org/MPL/2.0/)
 
+[Original blog post](https://www.peterbe.com/plog/django-html-validator)
+
+[Blog post update about Django 2 support](https://www.peterbe.com/plog/django-html-validator-now-supports-django-2.x)
 
 Warning!
 --------
