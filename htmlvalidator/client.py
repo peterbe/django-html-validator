@@ -19,9 +19,14 @@ class ValidatingClient(Client):
             return response
 
         # perhaps you already, for some reason have the middleware installed
+        try:
+            middlewares = settings.MIDDLEWARE
+        except AttributeError:
+            # Django <2
+            middlewares = settings.MIDDLEWARE_CLASSES
         if (
             'htmlvalidator.middleware.HTMLValidator'
-            in settings.MIDDLEWARE_CLASSES
+            in middlewares
         ):
             # no point doing it here too
             return response

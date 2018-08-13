@@ -1,35 +1,18 @@
 sudo: false
+
 language: python
+
 python:
-- 2.7
-env:
-- TOX_ENV=py27_dj18
-- TOX_ENV=py27_dj19
-- TOX_ENV=py27_dj110
-- TOX_ENV=py34_dj18
-- TOX_ENV=py34_dj19
-- TOX_ENV=py34_dj110
-# https://github.com/travis-ci/travis-ci/issues/4794
-matrix:
-  include:
-    - python: 3.5
-      env: TOX_ENV=py35_dj18
-    - python: 3.5
-      env: TOX_ENV=py35_dj19
-    - python: 3.5
-      env: TOX_ENV=py35_dj110
+  - "2.7"
+  - "3.5"
+  - "3.6"
+
+install:
+  - pip install codecov tox-travis
+
 branches:
   only:
   - master
-install:
-- pip install tox twine
+
 script:
-- tox -e $TOX_ENV
-deploy:
-  provider: pypi
-  user: peterbe
-  password:
-    secure: NaWe6VM0X04jbaK6A85dTH7iFo4lVZZwgydTO2vmPxhyfbH+9rrYG62E5p7VBZVFDF66iPHk3nP57DYfOg2OTFMbdQp0CjWvePQR1qY7tFkBjYKAyF0L+S96cuCFaGpAjgo4PKYbwzHI0L0WEE71PXorBMxOhhp8bDJ9+YR723s=
-  on:
-    repo: peterbe/django-html-validator
-  distributions: "sdist bdist_wheel"
+    - tox

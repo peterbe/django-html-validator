@@ -5,3 +5,6 @@ example/db.sqlite3
 .tox/
 __pycache__
 *.pyc
+.vscode/
+vnu/vnu.jar
+example_dj18/db.sqlite3
