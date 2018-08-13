@@ -48,6 +48,7 @@ setup(
     author_email='mail@peterbe.com',
     description="Yo! Check your HTML!",
     long_description=README,
+    long_description_content_type='text/markdown',
     packages=['htmlvalidator'],
     license='MPL v2.0',
     include_package_data=True,
