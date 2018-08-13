@@ -88,11 +88,26 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-HTMLVALIDATOR_ENABLED = True
+HTMLVALIDATOR_ENABLED = os.environ.get(
+    'HTMLVALIDATOR_ENABLED',
+    'True'
+).lower() in ('1', 'true')
 
-#HTMLVALIDATOR_FAILFAST = True
+HTMLVALIDATOR_FAILFAST = os.environ.get(
+    'HTMLVALIDATOR_FAILFAST',
+    'False'
+).lower() in ('1', 'true')
 
-HTMLVALIDATOR_VNU_JAR = '~/Downloads/vnu/vnu.jar'
+HTMLVALIDATOR_VNU_JAR = os.environ.get(
+    'HTMLVALIDATOR_VNU_JAR',
+    '../vnu/vnu.jar'
+)
 
-#HTMLVALIDATOR_OUTPUT = 'stdout'
-HTMLVALIDATOR_DUMPDIR = '~/tmp/htmlvalidator'
+HTMLVALIDATOR_OUTPUT = os.environ.get(
+    'HTMLVALIDATOR_OUTPUT',
+    'stdout'
+)
+HTMLVALIDATOR_DUMPDIR = os.environ.get(
+    'HTMLVALIDATOR_OUTPUT',
+    '/tmp/htmlvalidator'
+)

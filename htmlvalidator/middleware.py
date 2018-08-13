@@ -1,10 +1,15 @@
 from django.conf import settings
 from django.contrib.sites.requests import RequestSite
+try:
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    MiddlewareMixin = object
+
 
 from .core import validate_html
 
 
-class HTMLValidator(object):
+class HTMLValidator(MiddlewareMixin):
 
     def process_response(self, request, response):
         if not getattr(settings, 'HTMLVALIDATOR_ENABLED', False):
