@@ -53,6 +53,11 @@ def _validate(html_file, html, content_type, args_kwargs):
         with codecs.open(html_file, 'w', 'utf-8') as f:
             f.write(html.decode(encoding))
 
+        if getattr(settings, 'HTMLVALIDATOR_VNU_OPTIONS', None):
+            options = settings.HTMLVALIDATOR_VNU_OPTIONS
+        else:
+            options = []
+
         vnu_jar_path = settings.HTMLVALIDATOR_VNU_JAR
         vnu_jar_path = os.path.expanduser(vnu_jar_path)
         vnu_jar_path = os.path.abspath(vnu_jar_path)
@@ -60,8 +65,8 @@ def _validate(html_file, html, content_type, args_kwargs):
             raise ImproperlyConfigured(
                 '%s is not a file' % vnu_jar_path
             )
-        status, _, err = _run_command(
-            'java', '-jar', vnu_jar_path, html_file
+        status, err, _ = _run_command(
+            'java', '-jar', vnu_jar_path, '--stdout', *options, html_file
         )
         if status not in (0, 1):
             # 0 if it worked and no validation errors/warnings
