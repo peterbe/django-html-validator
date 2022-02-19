@@ -65,8 +65,8 @@ def _validate(html_file, html, content_type, args_kwargs):
             raise ImproperlyConfigured(
                 '%s is not a file' % vnu_jar_path
             )
-        status, _, err = _run_command(
-            'java', '-jar', vnu_jar_path, *options, html_file
+        status, err, _ = _run_command(
+            'java', '-jar', vnu_jar_path, '--stdout', *options, html_file
         )
         if status not in (0, 1):
             # 0 if it worked and no validation errors/warnings
