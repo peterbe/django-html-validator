@@ -89,12 +89,19 @@ def _validate(html_file, html, content_type, args_kwargs):
             'HTMLVALIDATOR_VNU_URL',
             'https://html5.validator.nu/'
         )
+        vnu_html_options = getattr(
+            settings,
+            'HTMLVALIDATOR_VNU_HTML_OPTIONS',
+            {}
+        )
+        params_html = {
+                'out': 'gnu',
+            }
+        params_html.update(vnu_html_options)
 
         req = requests.post(
             vnu_url,
-            params={
-                'out': 'gnu',
-            },
+            params=params_html,
             headers={
                 'Content-Type': content_type,
                 'Accept-Encoding': 'gzip',
