@@ -131,14 +131,14 @@ server. E.g. with `./manage.py runserver`.
 
 To do that you need to enable the middleware. In your settings module,
 append `htmlvalidator.middleware.HTMLValidator`
-to `MIDDLEWARE_CLASSES` for example like this:
+to `MIDDLEWARE` for example like this:
 
 ```python
 if HTMLVALIDATOR_ENABLED:
-    MIDDLEWARE_CLASSES += ("htmlvalidator.middleware.HTMLValidator",)
+    MIDDLEWARE += ("htmlvalidator.middleware.HTMLValidator",)
 ```
 
-You can also add it directly and unconditionally to `MIDDLEWARE_CLASSES`
+You can also add it directly and unconditionally to `MIDDLEWARE`
 and it won't do anything (except be loaded) unless enabled, see
 the note above about `HTMLVALIDATOR_ENABLED` for more info.
 
